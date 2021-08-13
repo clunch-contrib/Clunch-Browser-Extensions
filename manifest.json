@@ -1,0 +1,19 @@
+{
+  "name": "Clunch Browser Extensions",
+  "description": "Clunch Browser  Extension",
+  "version": "1.0",
+  "manifest_version": 2,
+  "browser_action": {
+    "default_popup": "index.html",
+    "default_icon": "clunch.png"
+  },
+  "permissions": [
+    "http://*/",
+    "bookmarks",
+    "tabs",
+    "history"
+  ],
+  "background":{
+    "page":"background.html"
+  }
+}

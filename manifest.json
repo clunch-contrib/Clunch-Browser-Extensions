@@ -10,10 +10,8 @@
         "default_title": "Clunch Browser Extensions"
     },
     "permissions": [
-        "http://*/",
-        "bookmarks",
-        "tabs",
-        "history"
+        "*://*/*",
+        "tabs"
     ],
     "icons": {
         "16": "images/clunch-16.png",
@@ -23,5 +21,17 @@
     "background": {
         "page": "background/index.html"
     },
-    "devtools_page": "devtools-page/index.html"
+    "homepage_url":"https://hai2007.gitee.io/sweethome/",
+    "devtools_page": "devtools-page/index.html",
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "libs/content-script.js"
+            ],
+            "run_at": "document_start"
+        }
+    ]
 }

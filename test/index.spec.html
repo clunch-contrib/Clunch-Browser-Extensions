@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./clunch-template.js"></script>
+    <style>
+        #root {
+            width: 100vw;
+            height: 400px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="root">
+        <arc c-bind:cx='_width*0.5' c-bind:cy='_height*0.5' c-bind:radius1='_min*0.5' radius2='100' deg='120deg'></arc>
+        <group c-for='value in dataList'>
+            <circle c-bind:cx='value' c-on:click='doit0' c-bind:cy='value' radius='10'></circle>
+            <text c-bind:x='value+20' c-bind:y='value' c-bind:content='value' fill-color='red'></text>
+        </group>
+        <path>
+            1
+            <move-to x='10' y='10'></move-to>
+            2
+            <line-to x='100' y='100'></line-to>
+            3
+        </path>
+        <text c-bind:x='_width*0.5' c-bind:y='_height*0.5'>文字</text>
+    </div>
+
+    <script>
+
+        new Clunch({
+            el: document.getElementById('root'),
+            methods: {
+
+                // 格式0
+                doit0: function (target) {
+                    console.log(target);
+                },
+
+                // 格式1
+                doit1: ['$move', function ($move) {
+                    return function () {
+                        console.warn($move);
+                        console.log('1');
+                    };
+                }]
+            },
+            data: ['$dot', '$tree', function ($dot, $tree) {
+                return {
+                    flag: 2,
+                    dot_: $dot,
+                    _tree_: $tree,
+                    dataList: [10, 100, 50]
+                };
+            }],
+
+        });
+
+    </script>
+
+</body>
+
+</html>

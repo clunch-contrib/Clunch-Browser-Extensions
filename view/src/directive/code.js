@@ -8,28 +8,32 @@ let doit = (el, binding) => {
     preDom.style.height = '200px';
     preDom.style.margin = '0';
 
-    new OpenWebEditor({
+    try {
+        new OpenWebEditor({
 
-        // 编辑器挂载点
-        el: preDom,
+            // 编辑器挂载点
+            el: preDom,
 
-        // 初始化文本
-        content: binding.value,
+            // 初始化文本
+            content: binding.value,
 
-        // 是否只读
-        readonly: true,
+            // 是否只读
+            readonly: true,
 
-        // 设置颜色
-        color: {
-            background: "#eeeeee", /*编辑器背景*/
-            text: "#000000", /*文本颜色*/
-            number: "#888484", /*行号颜色*/
-            edit: "#eaeaf1", /*编辑行背景色*/
-            cursor: "#ff0000", /*光标颜色*/
-            select: "gray", /*选择背景*/
-        }
+            // 设置颜色
+            color: {
+                background: "#eeeeee", /*编辑器背景*/
+                text: "#000000", /*文本颜色*/
+                number: "#888484", /*行号颜色*/
+                edit: "#eaeaf1", /*编辑行背景色*/
+                cursor: "#ff0000", /*光标颜色*/
+                select: "gray", /*选择背景*/
+            }
 
-    });
+        });
+    } catch (e) {
+        el.innerHTML = '新建编辑页面发生了错误<hr />' + e;
+    }
 };
 
 export default {

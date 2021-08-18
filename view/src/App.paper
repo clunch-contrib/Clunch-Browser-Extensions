@@ -18,6 +18,7 @@
 <script>
     import './styles/style.scss';
     import jsonToTemplate from './libs/jsonToTemplate';
+    import jsonToString from './libs/jsonToString';
     export default {
         data() {
             return {
@@ -38,7 +39,9 @@
                     value: "获取绘图对象的信息"
                 }, response => {
 
-                    console.log(response);
+                    if (!response) {
+                        return;
+                    }
 
                     let iconsDom = document.getElementById("clunch-browser-extensions-icons");
                     iconsDom.innerHTML = jsonToTemplate(response);
@@ -48,11 +51,11 @@
                         iconDoms[i].addEventListener('click', () => {
 
                             this.currentData = {
-                                data: JSON.stringify(response[i].target.data, null, 2),
+                                data: jsonToString(response[i].target.data),
                                 render: {
-                                    aop: JSON.stringify(response[i].target.render.AOP, null, 2),
-                                    options: JSON.stringify(response[i].target.render.Options, null, 2),
-                                    series: JSON.stringify(response[i].target.render.Series, null, 2)
+                                    aop: jsonToString(response[i].target.render.AOP),
+                                    options: jsonToString(response[i].target.render.Options),
+                                    series: jsonToString(response[i].target.render.Series)
                                 }
                             };
 

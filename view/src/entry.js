@@ -6,10 +6,9 @@ import "./styles/common.css";
 
 import App from './App.paper';
 
-import code from './directive/code'; QuickPaper.directive('uiCode',code);
+import code from './directive/code'; QuickPaper.directive('uiCode', code);
 
-// 创建对象
-window.quickPaper = new QuickPaper({
+new QuickPaper({
 
     // 挂载点
     el: document.getElementById('root'),

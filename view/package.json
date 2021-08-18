@@ -1,6 +1,5 @@
 {
   "name": "clunch-browser-extensions-popup",
-  "version": "0.1.0",
   "description": "Clunch浏览器插件popup界面",
   "scripts": {
     "start": "npm install && npm run dev",

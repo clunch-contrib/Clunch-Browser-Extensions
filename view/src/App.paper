@@ -13,12 +13,19 @@
             <div ui-code='currentData.render.options' :active='flag=="options"?"yes":"no"'></div>
             <div ui-code='currentData.render.series' :active='flag=="series"?"yes":"no"'></div>
         </div>
+        <pre>
+       </pre>
     </div>
 </template>
 <script>
+
     import './styles/style.scss';
+
     import jsonToTemplate from './libs/jsonToTemplate';
     import jsonToString from './libs/jsonToString';
+
+    import getDataFromContentScript from './libs/getDataFromContentScript';
+
     export default {
         data() {
             return {
@@ -33,44 +40,38 @@
         },
         mounted() {
 
-            chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-                chrome.tabs.sendMessage(tabs[0].id, {
-                    cmd: "clunch",
-                    value: "获取绘图对象的信息"
-                }, response => {
+            // 获取数据
+            getDataFromContentScript().then(response => {
 
-                    if (!response) {
-                        return;
-                    }
+                let iconsDom = document.getElementById("clunch-browser-extensions-icons");
 
-                    let iconsDom = document.getElementById("clunch-browser-extensions-icons");
-                    iconsDom.innerHTML = jsonToTemplate(response);
+                iconsDom.innerHTML = jsonToTemplate(response);
 
-                    let iconDoms = iconsDom.getElementsByTagName('div');
-                    for (let i = 0; i < iconDoms.length; i++) {
-                        iconDoms[i].addEventListener('click', () => {
+                let iconDoms = iconsDom.getElementsByTagName('div');
+                for (let i = 0; i < iconDoms.length; i++) {
+                    iconDoms[i].addEventListener('click', () => {
 
-                            this.currentData = {
-                                data: jsonToString(response[i].target.data),
-                                render: {
-                                    aop: jsonToString(response[i].target.render.AOP),
-                                    options: jsonToString(response[i].target.render.Options),
-                                    series: jsonToString(response[i].target.render.Series)
-                                }
-                            };
-
-                            for (let j = 0; j < iconDoms.length; i++) {
-                                iconDoms[j].setAttribute('active', 'no');
+                        this.currentData = {
+                            data: jsonToString(response[i].target.data),
+                            render: {
+                                aop: jsonToString(response[i].target.render.AOP),
+                                options: jsonToString(response[i].target.render.Options),
+                                series: jsonToString(response[i].target.render.Series)
                             }
-                            iconDoms[i].setAttribute('active', 'yes');
+                        };
 
-                        });
-                    }
+                        for (let j = 0; j < iconDoms.length; i++) {
+                            iconDoms[j].setAttribute('active', 'no');
+                        }
+                        iconDoms[i].setAttribute('active', 'yes');
 
-                    iconDoms[0].click();
+                    });
+                }
 
-                });
+                iconDoms[0].click();
+
             });
+
 
         }
     };

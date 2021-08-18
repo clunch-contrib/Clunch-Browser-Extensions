@@ -1,0 +1,62 @@
+.view-frame {
+    padding: 10px;
+
+    &>div {
+        width: 500px;
+        outline: 1px solid #eeeeee;
+        white-space: nowrap;
+
+        &>div {
+            white-space: normal;
+            vertical-align: top;
+            display: inline-block;
+
+            &.icons {
+                width: 100px;
+
+                &>.icon {
+                    display: inline-block;
+                    width: 90px;
+                    height: 60px;
+                    outline: 1px solid rgb(244, 244, 250);
+                    background-position: center;
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    margin: 5px;
+                    cursor: pointer;
+
+                    &[active='yes'] {
+                        outline: 1px solid rgb(19, 19, 20);
+                    }
+                }
+            }
+
+            &.view {
+                width: 400px;
+
+                &>div {
+                    &[active='no'] {
+                        display: none;
+                    }
+
+                    &.nav {
+                        &>span {
+                            font-size: 12px;
+                            padding: 0 10px;
+                            cursor: pointer;
+                            vertical-align: top;
+                            height: 30px;
+                            line-height: 30px;
+                            display: inline-block;
+
+                            &[active='yes'] {
+                                color: red;
+                                border-bottom: 2px solid red;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

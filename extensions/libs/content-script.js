@@ -14,11 +14,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     clunchObjects.push({
                         name: doms[i].getAttribute('__clunch__devtool__'),
                         target: JSON.parse(canvas.getAttribute('__clunch__devtool__target__')),
-                        preview: canvas.toDataURL('image/jpeg', 0.5)
+                        preview: canvas.toDataURL('image/png', 0.5)
                     });
 
                 }
             }
+
+            console.log(clunchObjects);
 
             sendResponse(clunchObjects);
         }

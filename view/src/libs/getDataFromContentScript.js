@@ -36,7 +36,7 @@ export default function () {
 
                     getIndexData(0);
 
-                } else reject();
+                } else reject("温馨提示：当前页面无基于Clunch开发的图形需要显示！");
 
             });
         });

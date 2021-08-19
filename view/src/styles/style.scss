@@ -1,10 +1,22 @@
 .view-frame {
     padding: 10px;
 
+    [show='no'] {
+        display: none;
+    }
+
     &>div {
         width: 500px;
         outline: 1px solid #eeeeee;
         white-space: nowrap;
+
+        &.error {
+            background-color: #f8a3b2;
+            color: #f50101;
+            font-size: 12px;
+            padding: 10px;
+            overflow: auto;
+        }
 
         &>div {
             white-space: normal;

@@ -1,5 +1,5 @@
 <template class='view-frame'>
-    <div>
+    <div :show='errormsg==""?"yes":"no"'>
         <div class="icons" id='clunch-browser-extensions-icons'></div>
         <div class="view">
             <div class="nav">
@@ -13,8 +13,9 @@
             <div ui-code='currentData.render.options' :active='flag=="options"?"yes":"no"'></div>
             <div ui-code='currentData.render.series' :active='flag=="series"?"yes":"no"'></div>
         </div>
-        <pre>
-       </pre>
+    </div>
+    <div class="error" :show='errormsg==""?"no":"yes"'>
+        {{errormsg}}
     </div>
 </template>
 <script>
@@ -30,7 +31,8 @@
         data() {
             return {
                 currentData: {},
-                flag: "data"
+                flag: "data",
+                errormsg: ""
             };
         },
         methods: {
@@ -69,6 +71,10 @@
                 }
 
                 iconDoms[0].click();
+
+            }).catch(error => {
+
+                this.errormsg = error;
 
             });
 

@@ -7,6 +7,7 @@ import "./styles/common.css";
 import App from './App.paper';
 
 import code from './directive/code'; QuickPaper.directive('uiCode', code);
+import navActive from './directive/nav-active'; QuickPaper.directive('uiNavActive', navActive);
 
 new QuickPaper({
 

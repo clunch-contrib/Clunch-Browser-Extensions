@@ -5,7 +5,7 @@ let doit = (el, binding) => {
     el.innerHTML = "<pre></pre>";
     let preDom = el.getElementsByTagName('pre')[0];
     preDom.style.width = '400px';
-    preDom.style.height = '200px';
+    preDom.style.height = '300px';
     preDom.style.margin = '0';
 
     try {

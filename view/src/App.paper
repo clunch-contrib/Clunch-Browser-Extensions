@@ -1,6 +1,6 @@
 <template class='view-frame'>
     <div :show='errormsg==""?"yes":"no"'>
-        <div class="icons" id='clunch-browser-extensions-icons'></div>
+        <div class="icons" id='clunch-browser-extensions-icons' ui-nav-active='listFlag'></div>
         <div class="view">
             <div class="nav">
                 <span @click='changeNav("data")' :active='flag=="data"?"yes":"no"'>数据</span>
@@ -32,7 +32,8 @@
             return {
                 currentData: {},
                 flag: "data",
-                errormsg: ""
+                errormsg: "",
+                listFlag: ""
             };
         },
         methods: {
@@ -45,32 +46,33 @@
             // 获取数据
             getDataFromContentScript().then(response => {
 
-                let iconsDom = document.getElementById("clunch-browser-extensions-icons");
+                try {
 
-                iconsDom.innerHTML = jsonToTemplate(response);
+                    let iconsDom = document.getElementById("clunch-browser-extensions-icons");
 
-                let iconDoms = iconsDom.getElementsByTagName('div');
-                for (let i = 0; i < iconDoms.length; i++) {
-                    iconDoms[i].addEventListener('click', () => {
+                    iconsDom.innerHTML = jsonToTemplate(response);
 
-                        this.currentData = {
-                            data: jsonToString(response[i].target.data),
-                            render: {
-                                aop: jsonToString(response[i].target.render.AOP),
-                                options: jsonToString(response[i].target.render.Options),
-                                series: jsonToString(response[i].target.render.Series)
-                            }
-                        };
+                    let iconDoms = iconsDom.getElementsByTagName('div');
+                    for (let i = 0; i < iconDoms.length; i++) {
+                        iconDoms[i].addEventListener('click', () => {
+                            this.currentData = {
+                                data: jsonToString(response[i].target.data),
+                                render: {
+                                    aop: jsonToString(response[i].target.render.AOP),
+                                    options: jsonToString(response[i].target.render.Options),
+                                    series: jsonToString(response[i].target.render.Series)
+                                }
+                            };
 
-                        for (let j = 0; j < iconDoms.length; i++) {
-                            iconDoms[j].setAttribute('active', 'no');
-                        }
-                        iconDoms[i].setAttribute('active', 'yes');
+                            this.listFlag = response[i].name;
 
-                    });
+                        });
+                    }
+
+                    iconDoms[0].click();
+                } catch (errpr) {
+                    this.errormsg = error;
                 }
-
-                iconDoms[0].click();
 
             }).catch(error => {
 

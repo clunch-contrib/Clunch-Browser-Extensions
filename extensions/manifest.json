@@ -10,7 +10,7 @@
         "default_title": "Clunch Browser Extensions"
     },
     "permissions": [
-        "*://*/*",
+        "<all_urls>",
         "tabs"
     ],
     "icons": {

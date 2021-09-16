@@ -6,6 +6,8 @@ clunch在浏览器中的扩展插件
 
 > 温馨提示，本插件需要[clunch最低2.0.0版本](https://github.com/hai2007/clunch/blob/master/CHANGELOG)！
 
+<img src='./review.png'>
+
 ## 发布
 
 首先，你需要去 ```view``` 文件夹下打包视图项目：

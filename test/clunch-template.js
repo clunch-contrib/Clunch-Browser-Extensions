@@ -4,12 +4,12 @@
  *
  * author 你好2007 < https://hai2007.gitee.io/sweethome >
  *
- * version 2.0.0-alpha.1
+ * version 2.0.4
  *
  * Copyright (c) 2018-2021 hai2007 走一步，再走一步。
  * Released under the MIT license
  *
- * Date:Wed Aug 18 2021 13:21:49 GMT+0800 (中国标准时间)
+ * Date:Thu Sep 16 2021 09:50:02 GMT+0800 (中国标准时间)
  */
 (function () {
     'use strict';
@@ -1860,7 +1860,9 @@
       Clunch.prototype.$$init = function (options) {
         var _this = this;
 
-        this.__options = options; // 记录平台
+        this.__options = options; // 是否关闭调试
+
+        this._debug = 'debug' in options ? options.debug : true; // 记录平台
 
         this._platform = "platform" in options ? options.platform : "default"; // 需要双向绑定的数据
 
@@ -2678,6 +2680,23 @@
       };
     }
 
+    function getClunchBrowserExtensionsData (target) {
+      var data = {};
+
+      for (var key in target.__data) {
+        data[key] = target[key];
+      }
+      return JSON.stringify({
+        version: 'v1',
+        // 新增数据版本，方便后期数据格式改变的时候，插件可以给出有益的提示
+        render: {
+          Series: target.__renderSeries,
+          AOP: target.__renderAOP
+        },
+        data: data
+      });
+    }
+
     function updateMixin(Clunch) {
       // 重新绘制画布
       Clunch.prototype.$$updateView = function () {
@@ -2747,11 +2766,13 @@
 
 
         if (this._platform == 'uni-app') {
-          this.__platform_painter.draw();
+          setTimeout(function () {
+            _this.__platform_painter.draw();
 
-          if (this.__regionManager != null) {
-            this.__regionManager.draw();
-          }
+            if (_this.__regionManager != null) {
+              _this.__regionManager.draw();
+            }
+          }, 200);
         }
 
         this.$$lifecycle('drawed');
@@ -2931,18 +2952,9 @@
         this.__renderAOP, {}, false, "", false); // 更新最新数据(目前只支持web端的调试)
 
 
-        if (this._platform == 'default') {
-          this.__el.getElementsByTagName('canvas')[0].setAttribute('__clunch__devtool__target__', JSON.stringify({
-            render: {
-              Options: this.__renderOptions,
-              Series: this.__renderSeries,
-              AOP: this.__renderAOP
-            },
-            data: this.__data,
-            animation: this.__animation,
-            width: this._width,
-            height: this._height
-          }));
+        if (this._platform == 'default' && this._debug) {
+          // 获取数据用于提供给浏览器调试插件使用
+          this.__el.getElementsByTagName('canvas')[0].setAttribute('__clunch__devtool__target__', getClunchBrowserExtensionsData(this));
         } // 如果没有前置数据，根本不需要动画效果
 
 

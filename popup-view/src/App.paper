@@ -4,14 +4,12 @@
         <div class="view">
             <div class="nav">
                 <span @click='changeNav("data")' :active='flag=="data"?"yes":"no"'>数据</span>
-                <span @click='changeNav("aop")' :active='flag=="aop"?"yes":"no"'>AOP</span>
-                <span @click='changeNav("options")' :active='flag=="options"?"yes":"no"'>Options</span>
-                <span @click='changeNav("series")' :active='flag=="series"?"yes":"no"'>Series</span>
+                <span @click='changeNav("aop")' :active='flag=="aop"?"yes":"no"'>计算前信息</span>
+                <span @click='changeNav("series")' :active='flag=="series"?"yes":"no"'>渲染后虚拟DOM</span>
             </div>
-            <div ui-code='currentData.data' :active='flag=="data"?"yes":"no"'></div>
-            <div ui-code='currentData.render.aop' :active='flag=="aop"?"yes":"no"'></div>
-            <div ui-code='currentData.render.options' :active='flag=="options"?"yes":"no"'></div>
-            <div ui-code='currentData.render.series' :active='flag=="series"?"yes":"no"'></div>
+            <div ui-json='currentData.data' :active='flag=="data"?"yes":"no"'></div>
+            <div ui-json='currentData.render.aop' :active='flag=="aop"?"yes":"no"'></div>
+            <div ui-json='currentData.render.series' :active='flag=="series"?"yes":"no"'></div>
         </div>
     </div>
     <div class="error" :show='errormsg==""?"no":"yes"'>
@@ -23,9 +21,9 @@
     import './styles/style.scss';
 
     import jsonToTemplate from './libs/jsonToTemplate';
-    import jsonToString from './libs/jsonToString';
 
     import getDataFromContentScript from './libs/getDataFromContentScript';
+    import error from './libs/error';
 
     export default {
         data() {
@@ -50,28 +48,31 @@
 
                     let iconsDom = document.getElementById("clunch-browser-extensions-icons");
 
-                    iconsDom.innerHTML = jsonToTemplate(response);
+                    if (iconsDom) {
+                        iconsDom.innerHTML = jsonToTemplate(response);
 
-                    let iconDoms = iconsDom.getElementsByTagName('div');
-                    for (let i = 0; i < iconDoms.length; i++) {
-                        iconDoms[i].addEventListener('click', () => {
-                            this.currentData = {
-                                data: jsonToString(response[i].target.data),
-                                render: {
-                                    aop: jsonToString(response[i].target.render.AOP),
-                                    options: jsonToString(response[i].target.render.Options),
-                                    series: jsonToString(response[i].target.render.Series)
-                                }
-                            };
+                        let iconDoms = iconsDom.getElementsByTagName('div');
+                        for (let i = 0; i < iconDoms.length; i++) {
+                            iconDoms[i].addEventListener('click', () => {
+                                this.currentData = {
+                                    data: response[i].target.data,
+                                    render: {
+                                        aop: response[i].target.render.AOP,
+                                        series: response[i].target.render.Series
+                                    }
+                                };
 
-                            this.listFlag = response[i].name;
+                                this.listFlag = response[i].name;
 
-                        });
+                            });
+                        }
+
+                        iconDoms[0].click();
+                    } else {
+                        this.errormsg = error.none;
                     }
-
-                    iconDoms[0].click();
-                } catch (errpr) {
-                    this.errormsg = error;
+                } catch (error) {
+                    this.errormsg = '【发生了意外】' + error;
                 }
 
             }).catch(error => {

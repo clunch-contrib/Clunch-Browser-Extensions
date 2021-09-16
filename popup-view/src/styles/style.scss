@@ -72,3 +72,29 @@
         }
     }
 }
+
+.showobject {
+    font-size: 12px;
+    line-height: 1.6em;
+    padding: 10px;
+
+    ol {
+        padding-left: 10px;
+    }
+
+    span {
+        background-repeat: no-repeat;
+        background-position: left center;
+        background-image: url('../asset/right.png');
+        padding-left: 20px;
+        cursor: pointer;
+    }
+
+    [isopen='yes']>span {
+        background-image: url('../asset/down.png');
+    }
+
+    [isopen='no']>ol {
+        display: none;
+    }
+}

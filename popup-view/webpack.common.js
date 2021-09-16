@@ -7,11 +7,6 @@ module.exports = {
         filename: 'dist/main.js',
         chunkFilename: 'dist/bundle[name].js'
     },
-    resolve: {
-        alias: {
-            'quick-paper': 'quick-paper/dist/quick-paper.core.min.js'
-        }
-    },
     module: {
         rules: [{
             test: /\.paper$/,

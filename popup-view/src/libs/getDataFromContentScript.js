@@ -1,3 +1,5 @@
+import error from './error';
+
 export default function () {
 
     return new Promise((resolve, reject) => {
@@ -36,7 +38,7 @@ export default function () {
 
                     getIndexData(0);
 
-                } else reject("温馨提示：当前页面无基于Clunch开发的图形需要显示！");
+                } else reject(error.none);
 
             });
         });
